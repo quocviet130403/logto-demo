@@ -22,7 +22,7 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    entrypoint: ["sh", "-c", "npm run cli db seed -- --no-interaction; npm start"]
+    entrypoint: ["sh", "-c", "npm run cli db seed -- --swe && npm run cli db alteration deploy && npm start"]
     environment:
       TRUST_PROXY_HEADER: "1"
       DB_URL: postgresql://logto:logto_password@postgres:5432/logto
