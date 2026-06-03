@@ -23,8 +23,7 @@ Full-stack authentication demo sử dụng **Logto OSS** với email verificatio
 ### 1. Khởi chạy Infrastructure (Docker)
 
 ```bash
-cd d:\project\logto-demo
-docker compose up -d
+docker compose up -d postgres logto mailpit
 ```
 
 Đợi khoảng 30s để Logto seed database. Kiểm tra:
@@ -44,32 +43,24 @@ Xem hướng dẫn chi tiết tại [docs/logto-setup.md](docs/logto-setup.md).
 
 ### 3. Cập nhật Environment Variables
 
-Paste App ID & App Secret vào `frontend/.env.local`:
+Paste App ID & App Secret vào file `.env` ở thư mục gốc:
 
 ```bash
 LOGTO_APP_ID=<your-app-id>
 LOGTO_APP_SECRET=<your-app-secret>
 ```
 
-### 4. Chạy Frontend
+### 4. Khởi chạy toàn bộ stack
 
 ```bash
-cd frontend
-npm run dev
+docker compose up -d --build
 ```
 
-Mở http://localhost:3000
+Kiểm tra:
+- Frontend: http://localhost:3000
+- Backend Health: http://localhost:4000/api/health
 
-### 5. Chạy Backend
-
-```bash
-cd backend
-npm run start:dev
-```
-
-Kiểm tra: http://localhost:4000/api/health
-
-### 6. Test Auth Flow
+### 5. Test Auth Flow
 
 1. Click **Sign In / Sign Up** trên frontend
 2. Chọn **Create account** → nhập email
