@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   description: "Full-stack authentication demo with Logto OSS, email verification, Docker",
 };
 
+const adminUrl = process.env.LOGTO_ADMIN_URL || "https://logto-demo-admin.minproxy.io";
+const mailpitUrl = process.env.MAILPIT_WEB_UI || "https://logto-demo-mail.minproxy.io";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -36,11 +39,11 @@ export default function RootLayout({
         <footer className="footer">
           <p>
             Logto Demo • Next.js + NestJS •{" "}
-            <a href="http://103.232.122.149:3002" target="_blank" rel="noopener noreferrer">
+            <a href={adminUrl} target="_blank" rel="noopener noreferrer">
               Admin Console
             </a>{" "}
             •{" "}
-            <a href="http://103.232.122.149:8025" target="_blank" rel="noopener noreferrer">
+            <a href={mailpitUrl} target="_blank" rel="noopener noreferrer">
               Mailpit
             </a>
           </p>

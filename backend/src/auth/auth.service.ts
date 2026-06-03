@@ -8,9 +8,9 @@ export class AuthService {
   private audience: string;
 
   constructor() {
-    const logtoEndpoint = process.env.LOGTO_ENDPOINT || 'http://103.232.122.149:3001';
+    const logtoEndpoint = process.env.LOGTO_ENDPOINT || 'https://logto-demo-auth.minproxy.io';
     this.issuer = `${logtoEndpoint}/oidc`;
-    this.audience = process.env.LOGTO_API_RESOURCE || 'http://103.232.122.149:4000/api';
+    this.audience = process.env.LOGTO_API_RESOURCE || 'https://logto-demo.minproxy.io/api';
 
     // Create remote JWKS set — jose caches keys automatically
     this.jwks = createRemoteJWKSet(

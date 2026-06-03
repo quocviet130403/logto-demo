@@ -47,7 +47,7 @@ export default async function ProtectedPage() {
       <div className="card">
         <h2>Request</h2>
         <p style={{ marginBottom: "16px" }}>
-          <code>GET http://103.232.122.149:4000/api/user/profile</code>
+          <code>GET {process.env.NEXT_PUBLIC_BASE_URL || "https://logto-demo.minproxy.io"}/api/user/profile</code>
         </p>
         <div className="api-response">
           <h3>Authorization Header</h3>

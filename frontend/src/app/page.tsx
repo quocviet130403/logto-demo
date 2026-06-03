@@ -7,6 +7,10 @@ export default async function Home() {
   const context = await getLogtoContext();
   const isAuthenticated = context.isAuthenticated;
 
+  const adminUrl = process.env.LOGTO_ADMIN_URL || "https://logto-demo-admin.minproxy.io";
+  const mailpitUrl = process.env.MAILPIT_WEB_UI || "https://logto-demo-mail.minproxy.io";
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://logto-demo.minproxy.io";
+
   return (
     <>
       {!isAuthenticated ? (
@@ -20,13 +24,13 @@ export default async function Home() {
             <SignInButton />
           </div>
           <div className="hero-links">
-            <a href="http://103.232.122.149:3002" target="_blank" rel="noopener noreferrer" className="hero-link">
+            <a href={adminUrl} target="_blank" rel="noopener noreferrer" className="hero-link">
               🛠 Admin Console
             </a>
-            <a href="http://103.232.122.149:8025" target="_blank" rel="noopener noreferrer" className="hero-link">
+            <a href={mailpitUrl} target="_blank" rel="noopener noreferrer" className="hero-link">
               📧 Mailpit (Email)
             </a>
-            <a href="http://103.232.122.149:4000/api/health" target="_blank" rel="noopener noreferrer" className="hero-link">
+            <a href={`${baseUrl}/api/health`} target="_blank" rel="noopener noreferrer" className="hero-link">
               💚 Backend Health
             </a>
           </div>
