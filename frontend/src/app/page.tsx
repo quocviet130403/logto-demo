@@ -20,13 +20,13 @@ export default async function Home() {
             <SignInButton />
           </div>
           <div className="hero-links">
-            <a href="http://localhost:3002" target="_blank" rel="noopener noreferrer" className="hero-link">
+            <a href="http://103.232.122.149:3002" target="_blank" rel="noopener noreferrer" className="hero-link">
               🛠 Admin Console
             </a>
-            <a href="http://localhost:8025" target="_blank" rel="noopener noreferrer" className="hero-link">
+            <a href="http://103.232.122.149:8025" target="_blank" rel="noopener noreferrer" className="hero-link">
               📧 Mailpit (Email)
             </a>
-            <a href="http://localhost:4000/api/health" target="_blank" rel="noopener noreferrer" className="hero-link">
+            <a href="http://103.232.122.149:4000/api/health" target="_blank" rel="noopener noreferrer" className="hero-link">
               💚 Backend Health
             </a>
           </div>

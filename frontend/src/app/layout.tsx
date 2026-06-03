@@ -36,11 +36,11 @@ export default function RootLayout({
         <footer className="footer">
           <p>
             Logto Demo • Next.js + NestJS •{" "}
-            <a href="http://localhost:3002" target="_blank" rel="noopener noreferrer">
+            <a href="http://103.232.122.149:3002" target="_blank" rel="noopener noreferrer">
               Admin Console
             </a>{" "}
             •{" "}
-            <a href="http://localhost:8025" target="_blank" rel="noopener noreferrer">
+            <a href="http://103.232.122.149:8025" target="_blank" rel="noopener noreferrer">
               Mailpit
             </a>
           </p>

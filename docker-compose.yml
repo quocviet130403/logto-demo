@@ -26,8 +26,8 @@ services:
     environment:
       TRUST_PROXY_HEADER: "1"
       DB_URL: postgresql://logto:logto_password@postgres:5432/logto
-      ENDPOINT: http://localhost:3001
-      ADMIN_ENDPOINT: http://localhost:3002
+      ENDPOINT: http://103.232.122.149:3001
+      ADMIN_ENDPOINT: http://103.232.122.149:3002
     ports:
       - "3001:3001"
       - "3002:3002"
@@ -55,8 +55,8 @@ services:
       - logto
     environment:
       LOGTO_ENDPOINT: http://logto:3001
-      LOGTO_API_RESOURCE: http://localhost:4000/api
-      FRONTEND_URL: http://localhost:3000
+      LOGTO_API_RESOURCE: http://103.232.122.149:4000/api
+      FRONTEND_URL: http://103.232.122.149:3000
       PORT: 4000
     ports:
       - "4000:4000"
@@ -72,12 +72,12 @@ services:
       - logto
       - backend
     environment:
-      LOGTO_ENDPOINT: http://localhost:3001
+      LOGTO_ENDPOINT: http://103.232.122.149:3001
       LOGTO_APP_ID: ${LOGTO_APP_ID:-your-app-id}
       LOGTO_APP_SECRET: ${LOGTO_APP_SECRET:-your-app-secret}
       LOGTO_COOKIE_SECRET: ${LOGTO_COOKIE_SECRET:-complex_password_at_least_32_characters_long_change_me}
-      LOGTO_API_RESOURCE: http://localhost:4000/api
-      NEXT_PUBLIC_BASE_URL: http://localhost:3000
+      LOGTO_API_RESOURCE: http://103.232.122.149:4000/api
+      NEXT_PUBLIC_BASE_URL: http://103.232.122.149:3000
     ports:
       - "3000:3000"
     networks:

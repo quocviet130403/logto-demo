@@ -14,7 +14,7 @@ export default async function ProtectedPage() {
 
   if (context.accessToken) {
     try {
-      const response = await fetch("http://localhost:4000/api/user/profile", {
+      const response = await fetch("http://backend:4000/api/user/profile", {
         headers: {
           Authorization: `Bearer ${context.accessToken}`,
         },
@@ -47,7 +47,7 @@ export default async function ProtectedPage() {
       <div className="card">
         <h2>Request</h2>
         <p style={{ marginBottom: "16px" }}>
-          <code>GET http://localhost:4000/api/user/profile</code>
+          <code>GET http://103.232.122.149:4000/api/user/profile</code>
         </p>
         <div className="api-response">
           <h3>Authorization Header</h3>

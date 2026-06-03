@@ -4,7 +4,7 @@ Hướng dẫn chi tiết cấu hình Logto sau khi `docker compose up` thành c
 
 ## 1. Tạo Admin Account
 
-1. Truy cập **http://localhost:3002**
+1. Truy cập **http://103.232.122.149:3002**
 2. Lần đầu tiên, Logto sẽ yêu cầu tạo admin account
 3. Nhập email và password → Create account
 
@@ -15,9 +15,9 @@ Hướng dẫn chi tiết cấu hình Logto sau khi `docker compose up` thành c
 3. Đặt tên: `Logto Demo Frontend`
 4. Sau khi tạo, vào tab **Settings**:
    - Copy **App ID** và **App Secret**
-   - **Redirect URIs**: thêm `http://localhost:3000/callback`
-   - **Post sign-out redirect URIs**: thêm `http://localhost:3000`
-   - **CORS allowed origins**: thêm `http://localhost:3000`
+   - **Redirect URIs**: thêm `http://103.232.122.149:3000/callback`
+   - **Post sign-out redirect URIs**: thêm `http://103.232.122.149:3000`
+   - **CORS allowed origins**: thêm `http://103.232.122.149:3000`
 5. Click **Save changes**
 
 > ⚠️ Paste **App ID** và **App Secret** vào file `frontend/.env.local`
@@ -26,7 +26,7 @@ Hướng dẫn chi tiết cấu hình Logto sau khi `docker compose up` thành c
 
 1. Vào **API resources** → **Create API resource**
 2. Đặt tên: `Logto Demo Backend`
-3. API identifier: `http://localhost:4000/api`
+3. API identifier: `http://103.232.122.149:4000/api`
 4. Click **Create**
 
 > ⚠️ API identifier này phải khớp với `LOGTO_API_RESOURCE` trong cả `frontend/.env.local` và `backend/.env`
@@ -75,7 +75,7 @@ Hướng dẫn chi tiết cấu hình Logto sau khi `docker compose up` thành c
 ```
 
 5. Click **Test** → nhập email bất kỳ → Send
-6. Mở **http://localhost:8025** (Mailpit) → confirm nhận được email
+6. Mở **http://103.232.122.149:8025** (Mailpit) → confirm nhận được email
 7. Click **Save and done**
 
 > **Lưu ý quan trọng**: Host phải là `mailpit` (tên Docker container), KHÔNG phải `localhost`. Vì Logto container cần kết nối tới Mailpit container qua Docker network.
@@ -94,11 +94,11 @@ Hướng dẫn chi tiết cấu hình Logto sau khi `docker compose up` thành c
 
 ## 6. Test Complete Flow
 
-1. Mở http://localhost:3000
+1. Mở http://103.232.122.149:3000
 2. Click **Sign In / Sign Up**
 3. Click **Create account** (nếu chưa có tài khoản)
 4. Nhập email → verification code sẽ được gửi
-5. Mở http://localhost:8025 → copy code
+5. Mở http://103.232.122.149:8025 → copy code
 6. Nhập code vào form → đặt password
 7. Hoàn tất → redirect về app
 
