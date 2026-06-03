@@ -102,7 +102,6 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/ssl-common.conf:/etc/nginx/ssl-common.conf:ro
       - ./nginx/conf.d/default.conf.template:/etc/nginx/templates/default.conf.template:ro
-      - ./nginx/docker-entrypoint.sh:/custom-entrypoint.sh:ro
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot:ro
     environment:
@@ -110,8 +109,21 @@ services:
       DOMAIN_AUTH: ${DOMAIN_AUTH}
       DOMAIN_ADMIN: ${DOMAIN_ADMIN}
       DOMAIN_MAIL: ${DOMAIN_MAIL}
-    entrypoint: ["sh", "/custom-entrypoint.sh"]
-    command: ["nginx", "-g", "daemon off;"]
+    entrypoint: >
+      sh -c "
+        CERT_DIR=/etc/letsencrypt/live/$$DOMAIN;
+        if [ ! -f $$CERT_DIR/fullchain.pem ] || [ ! -f $$CERT_DIR/privkey.pem ]; then
+          echo '>>> Creating self-signed certificate...';
+          mkdir -p $$CERT_DIR;
+          apk add --no-cache openssl > /dev/null 2>&1;
+          openssl req -x509 -nodes -newkey rsa:2048 -days 365
+            -keyout $$CERT_DIR/privkey.pem
+            -out $$CERT_DIR/fullchain.pem
+            -subj /CN=$$DOMAIN 2>/dev/null;
+          echo '>>> Done. Run init-letsencrypt.sh for real certs.';
+        fi;
+        /docker-entrypoint.sh nginx -g 'daemon off;'
+      "
     restart: unless-stopped
     networks:
       - logto-network
