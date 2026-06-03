@@ -110,7 +110,7 @@ services:
       DOMAIN_AUTH: ${DOMAIN_AUTH}
       DOMAIN_ADMIN: ${DOMAIN_ADMIN}
       DOMAIN_MAIL: ${DOMAIN_MAIL}
-    entrypoint: /custom-entrypoint.sh
+    entrypoint: ["sh", "/custom-entrypoint.sh"]
     command: ["nginx", "-g", "daemon off;"]
     restart: unless-stopped
     networks:

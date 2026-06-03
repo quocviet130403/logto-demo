@@ -1,0 +1,3 @@
+# Force LF line endings for shell scripts (avoid CRLF issues in Linux containers)
+*.sh text eol=lf
+init-letsencrypt.sh text eol=lf
