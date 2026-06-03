@@ -1,10 +1,10 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { handleSignInCallback } from "@/lib/logto";
 
-export default function CallbackPage() {
+function CallbackHandler() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const isHandled = useRef(false);
@@ -31,5 +31,13 @@ export default function CallbackPage() {
     <div className="loading">
       Completing sign-in...
     </div>
+  );
+}
+
+export default function CallbackPage() {
+  return (
+    <Suspense fallback={<div className="loading">Loading...</div>}>
+      <CallbackHandler />
+    </Suspense>
   );
 }
