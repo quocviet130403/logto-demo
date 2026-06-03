@@ -102,13 +102,16 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/ssl-common.conf:/etc/nginx/ssl-common.conf:ro
       - ./nginx/conf.d/default.conf.template:/etc/nginx/templates/default.conf.template:ro
-      - ./certbot/conf:/etc/letsencrypt:ro
+      - ./nginx/docker-entrypoint.sh:/custom-entrypoint.sh:ro
+      - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot:ro
     environment:
       DOMAIN: ${DOMAIN}
       DOMAIN_AUTH: ${DOMAIN_AUTH}
       DOMAIN_ADMIN: ${DOMAIN_ADMIN}
       DOMAIN_MAIL: ${DOMAIN_MAIL}
+    entrypoint: /custom-entrypoint.sh
+    command: ["nginx", "-g", "daemon off;"]
     restart: unless-stopped
     networks:
       - logto-network
