@@ -1,0 +1,54 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: logto-postgres
+    environment:
+      POSTGRES_USER: logto
+      POSTGRES_PASSWORD: logto_password
+      POSTGRES_DB: logto
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U logto"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks:
+      - logto-network
+
+  logto:
+    image: svhd/logto:latest
+    container_name: logto-server
+    depends_on:
+      postgres:
+        condition: service_healthy
+    entrypoint: ["sh", "-c", "npm run cli db seed -- --no-interaction; npm start"]
+    environment:
+      TRUST_PROXY_HEADER: "1"
+      DB_URL: postgresql://logto:logto_password@postgres:5432/logto
+      ENDPOINT: http://localhost:3001
+      ADMIN_ENDPOINT: http://localhost:3002
+    ports:
+      - "3001:3001"
+      - "3002:3002"
+    networks:
+      - logto-network
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: logto-mailpit
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+    networks:
+      - logto-network
+
+volumes:
+  pgdata:
+
+networks:
+  logto-network:
+    driver: bridge
