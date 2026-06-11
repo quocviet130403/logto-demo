@@ -86,6 +86,55 @@ services:
     networks:
       - logto-network
 
+  # ===== Semaphore UI =====
+  semaphore-mysql:
+    image: mysql:8.0
+    container_name: semaphore-mysql
+    hostname: semaphore-mysql
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_DATABASE: semaphore
+      MYSQL_USER: semaphore
+      MYSQL_PASSWORD: ${SEMAPHORE_DB_PASS:-semaphore_mysql_password}
+    volumes:
+      - semaphore-mysql-data:/var/lib/mysql
+    networks:
+      - logto-network
+    restart: unless-stopped
+
+  semaphore:
+    image: semaphoreui/semaphore:latest
+    container_name: semaphore
+    ports:
+      - "3000:3000"
+    environment:
+      SEMAPHORE_DB_DIALECT: mysql
+      SEMAPHORE_DB_HOST: semaphore-mysql
+      SEMAPHORE_DB_PORT: 3306
+      SEMAPHORE_DB_USER: semaphore
+      SEMAPHORE_DB_PASS: ${SEMAPHORE_DB_PASS:-semaphore_mysql_password}
+      SEMAPHORE_DB: semaphore
+      SEMAPHORE_ADMIN_PASSWORD: changeme
+      SEMAPHORE_ADMIN_NAME: admin
+      SEMAPHORE_ADMIN_EMAIL: admin@localhost
+      SEMAPHORE_ADMIN: admin
+      SEMAPHORE_WEB_ROOT: https://${DOMAIN_SEMAPHORE}
+      SEMAPHORE_OIDC_PROVIDERS: >
+        {
+          "logto": {
+            "display_name": "Logto SSO",
+            "provider_url": "https://${DOMAIN_AUTH}/oidc",
+            "client_id": "${SEMAPHORE_OIDC_LOGTO_CLIENT_ID}",
+            "client_secret": "${SEMAPHORE_OIDC_LOGTO_CLIENT_SECRET}",
+            "redirect_url": "https://${DOMAIN_SEMAPHORE}/api/auth/oidc/logto/redirect"
+          }
+        }
+    depends_on:
+      - semaphore-mysql
+    networks:
+      - logto-network
+    restart: unless-stopped
+
   # ===== Nginx Reverse Proxy =====
   # NOTE: Run init-letsencrypt.sh first to create SSL certs, or create self-signed:
   #   mkdir -p certbot/conf/live/${DOMAIN}
@@ -115,6 +164,7 @@ services:
       DOMAIN_AUTH: ${DOMAIN_AUTH}
       DOMAIN_ADMIN: ${DOMAIN_ADMIN}
       DOMAIN_MAIL: ${DOMAIN_MAIL}
+      DOMAIN_SEMAPHORE: ${DOMAIN_SEMAPHORE}
     restart: unless-stopped
     networks:
       - logto-network
@@ -132,6 +182,7 @@ services:
 
 volumes:
   pgdata:
+  semaphore-mysql-data:
 
 networks:
   logto-network:
