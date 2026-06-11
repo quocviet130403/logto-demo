@@ -38,8 +38,8 @@ server {
     # Backend API — proxy to NestJS
     location /api/ {
         resolver 127.0.0.11 valid=30s ipv6=off;
-        set $upstream_backend http://backend:4000;
-        proxy_pass $upstream_backend/api/;
+        set $upstream_backend backend:4000;
+        proxy_pass http://$upstream_backend;
         proxy_http_version 1.1;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -51,8 +51,8 @@ server {
     # Frontend — proxy to Next.js
     location / {
         resolver 127.0.0.11 valid=30s ipv6=off;
-        set $upstream_frontend http://frontend:3000;
-        proxy_pass $upstream_frontend;
+        set $upstream_frontend frontend:3000;
+        proxy_pass http://$upstream_frontend;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
@@ -83,8 +83,8 @@ server {
 
     location / {
         resolver 127.0.0.11 valid=30s ipv6=off;
-        set $upstream_logto http://logto:3001;
-        proxy_pass $upstream_logto;
+        set $upstream_logto logto:3001;
+        proxy_pass http://$upstream_logto;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
@@ -115,8 +115,8 @@ server {
 
     location / {
         resolver 127.0.0.11 valid=30s ipv6=off;
-        set $upstream_logto_admin http://logto:3002;
-        proxy_pass $upstream_logto_admin;
+        set $upstream_logto_admin logto:3002;
+        proxy_pass http://$upstream_logto_admin;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
@@ -147,8 +147,8 @@ server {
 
     location / {
         resolver 127.0.0.11 valid=30s ipv6=off;
-        set $upstream_mailpit http://mailpit:8025;
-        proxy_pass $upstream_mailpit;
+        set $upstream_mailpit mailpit:8025;
+        proxy_pass http://$upstream_mailpit;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
@@ -179,8 +179,8 @@ server {
 
     location /api/ws {
         resolver 127.0.0.11 valid=30s ipv6=off;
-        set $upstream_sem_ws http://semaphore:3000;
-        proxy_pass $upstream_sem_ws/api/ws;
+        set $upstream_sem_ws semaphore:3000;
+        proxy_pass http://$upstream_sem_ws;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
@@ -192,8 +192,8 @@ server {
 
     location / {
         resolver 127.0.0.11 valid=30s ipv6=off;
-        set $upstream_sem http://semaphore:3000;
-        proxy_pass $upstream_sem;
+        set $upstream_sem semaphore:3000;
+        proxy_pass http://$upstream_sem;
         proxy_http_version 1.1;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
