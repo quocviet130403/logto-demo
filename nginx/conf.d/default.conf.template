@@ -37,9 +37,7 @@ server {
 
     # Backend API — proxy to NestJS
     location /api/ {
-        resolver 127.0.0.11 valid=30s ipv6=off;
-        set $upstream_backend backend:4000;
-        proxy_pass http://$upstream_backend;
+        proxy_pass http://logto-backend:4000/api/;
         proxy_http_version 1.1;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -50,9 +48,7 @@ server {
 
     # Frontend — proxy to Next.js
     location / {
-        resolver 127.0.0.11 valid=30s ipv6=off;
-        set $upstream_frontend frontend:3000;
-        proxy_pass http://$upstream_frontend;
+        proxy_pass http://logto-frontend:3000;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
@@ -82,9 +78,7 @@ server {
     add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
     location / {
-        resolver 127.0.0.11 valid=30s ipv6=off;
-        set $upstream_logto logto:3001;
-        proxy_pass http://$upstream_logto;
+        proxy_pass http://logto-server:3001;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
@@ -114,9 +108,7 @@ server {
     add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
     location / {
-        resolver 127.0.0.11 valid=30s ipv6=off;
-        set $upstream_logto_admin logto:3002;
-        proxy_pass http://$upstream_logto_admin;
+        proxy_pass http://logto-server:3002;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
@@ -146,9 +138,7 @@ server {
     add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
     location / {
-        resolver 127.0.0.11 valid=30s ipv6=off;
-        set $upstream_mailpit mailpit:8025;
-        proxy_pass http://$upstream_mailpit;
+        proxy_pass http://logto-mailpit:8025;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
@@ -178,9 +168,7 @@ server {
     add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
     location /api/ws {
-        resolver 127.0.0.11 valid=30s ipv6=off;
-        set $upstream_sem_ws semaphore:3000;
-        proxy_pass http://$upstream_sem_ws;
+        proxy_pass http://semaphore:3000/api/ws;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
@@ -191,9 +179,7 @@ server {
     }
 
     location / {
-        resolver 127.0.0.11 valid=30s ipv6=off;
-        set $upstream_sem semaphore:3000;
-        proxy_pass http://$upstream_sem;
+        proxy_pass http://semaphore:3000;
         proxy_http_version 1.1;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
