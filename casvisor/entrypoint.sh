@@ -5,11 +5,11 @@
 echo "Patching frontend config..."
 
 # Replace Casdoor endpoint URL
-find /web/build/static/js -name '*.js' -exec sed -i \
+find /home/casvisor/web/build/static/js -name '*.js' -exec sed -i \
   "s|http://casdoor:8000|${CASDOOR_PUBLIC_URL}|g" {} \;
 
 # Replace placeholder client ID
-find /web/build/static/js -name '*.js' -exec sed -i \
+find /home/casvisor/web/build/static/js -name '*.js' -exec sed -i \
   "s|<FILL_AFTER_CASDOOR_SETUP>|${CASVISOR_CLIENT_ID}|g" {} \;
 
 echo "Frontend config patched:"

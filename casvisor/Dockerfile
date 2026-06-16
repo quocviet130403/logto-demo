@@ -19,7 +19,7 @@ RUN apk add --no-cache ca-certificates curl sudo
 RUN mkdir -p /home/casvisor
 WORKDIR /home/casvisor
 COPY --from=backend /go/src/casvisor/server /home/casvisor/server
-COPY --from=backend /go/src/casvisor/web/build /web/build
+COPY --from=backend /go/src/casvisor/web/build /home/casvisor/web/build
 COPY --from=backend /go/src/casvisor/data /data
 EXPOSE 19000
 CMD ["./server", "--createDatabase=true"]
