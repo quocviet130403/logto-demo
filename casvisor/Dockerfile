@@ -16,8 +16,10 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o server .
 FROM alpine:latest
 LABEL maintainer="https://casvisor.org/"
 RUN apk add --no-cache ca-certificates curl sudo
-COPY --from=backend /go/src/casvisor/server /server
+RUN mkdir -p /home/casvisor
+WORKDIR /home/casvisor
+COPY --from=backend /go/src/casvisor/server /home/casvisor/server
 COPY --from=backend /go/src/casvisor/web/build /web/build
-WORKDIR /
+COPY --from=backend /go/src/casvisor/data /data
 EXPOSE 19000
 CMD ["./server", "--createDatabase=true"]

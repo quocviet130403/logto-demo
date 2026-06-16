@@ -17,4 +17,4 @@ echo "  CASDOOR_PUBLIC_URL=${CASDOOR_PUBLIC_URL}"
 echo "  CASVISOR_CLIENT_ID=${CASVISOR_CLIENT_ID}"
 
 # Start the server
-exec ./server --createDatabase=true
+exec /home/casvisor/server --createDatabase=true
