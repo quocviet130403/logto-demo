@@ -29,10 +29,12 @@ Full-stack authentication demo sử dụng **Logto OSS** với email verificatio
 Trỏ A record cho domain và subdomain về IP server:
 
 ```
-logto-demo.minproxy.io       → YOUR_SERVER_IP
-logto-demo-auth.minproxy.io  → YOUR_SERVER_IP
-logto-demo-admin.minproxy.io → YOUR_SERVER_IP
-logto-demo-mail.minproxy.io  → YOUR_SERVER_IP
+logto-demo.minproxy.io          → YOUR_SERVER_IP
+logto-demo-auth.minproxy.io     → YOUR_SERVER_IP
+logto-demo-admin.minproxy.io    → YOUR_SERVER_IP
+logto-demo-mail.minproxy.io     → YOUR_SERVER_IP
+logto-demo-casdoor.minproxy.io  → YOUR_SERVER_IP
+logto-demo-casvisor.minproxy.io → YOUR_SERVER_IP
 ```
 
 #### b. Cập nhật `.env`
@@ -140,8 +142,13 @@ logto-demo/
 │   │   ├── auth/            # JWT guard + JWKS validation
 │   │   └── user/            # Protected user endpoints
 │   └── Dockerfile
+├── casdoor/                 # Casdoor IAM
+│   └── conf/app.conf        # Casdoor configuration
+├── casvisor/                # Casvisor Bastion/Audit
+│   └── conf/app.conf        # Casvisor configuration
 └── docs/
-    └── logto-setup.md       # Chi tiết cấu hình Logto Console
+    ├── logto-setup.md       # Chi tiết cấu hình Logto Console
+    └── casvisor-setup.md    # Hướng dẫn setup Casvisor + Casdoor
 ```
 
 ## Service URLs
@@ -154,6 +161,8 @@ logto-demo/
 | Logto Auth | https://auth.DOMAIN |
 | Logto Admin Console | https://admin.DOMAIN |
 | Mailpit (xem email) | https://mail.DOMAIN |
+| Casdoor Admin | https://casdoor.DOMAIN |
+| Casvisor UI | https://casvisor.DOMAIN |
 
 ## SSL Certificate Renewal
 

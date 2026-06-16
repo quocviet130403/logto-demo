@@ -135,6 +135,59 @@ services:
       - logto-network
     restart: unless-stopped
 
+  # ===== Casdoor (IAM) + Casvisor (Bastion/Audit) =====
+  casdoor-mysql:
+    image: mysql:8.0
+    container_name: casdoor-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${CASDOOR_DB_PASS:-casdoor_mysql_password}
+    volumes:
+      - casdoor-mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks:
+      - logto-network
+
+  casdoor:
+    image: casbin/casdoor:latest
+    container_name: casdoor
+    restart: unless-stopped
+    depends_on:
+      casdoor-mysql:
+        condition: service_healthy
+    entrypoint: /bin/sh -c './server --createDatabase=true'
+    environment:
+      RUNNING_IN_DOCKER: "true"
+    volumes:
+      - ./casdoor/conf:/conf/
+    expose:
+      - "8000"
+    networks:
+      - logto-network
+
+  casvisor:
+    image: casbin/casvisor:latest
+    container_name: casvisor
+    restart: unless-stopped
+    depends_on:
+      casdoor-mysql:
+        condition: service_healthy
+      casdoor:
+        condition: service_started
+    entrypoint: /bin/sh -c './server --createDatabase=true'
+    environment:
+      RUNNING_IN_DOCKER: "true"
+    volumes:
+      - ./casvisor/conf:/conf/
+    expose:
+      - "19000"
+    networks:
+      - logto-network
+
   # ===== Nginx Reverse Proxy =====
   # NOTE: Run init-letsencrypt.sh first to create SSL certs, or create self-signed:
   #   mkdir -p certbot/conf/live/${DOMAIN}
@@ -150,6 +203,8 @@ services:
       - backend
       - logto
       - mailpit
+      - casdoor
+      - casvisor
     ports:
       - "80:80"
       - "443:443"
@@ -165,6 +220,8 @@ services:
       DOMAIN_ADMIN: ${DOMAIN_ADMIN}
       DOMAIN_MAIL: ${DOMAIN_MAIL}
       DOMAIN_SEMAPHORE: ${DOMAIN_SEMAPHORE}
+      DOMAIN_CASDOOR: ${DOMAIN_CASDOOR}
+      DOMAIN_CASVISOR: ${DOMAIN_CASVISOR}
     restart: unless-stopped
     networks:
       - logto-network
@@ -183,6 +240,7 @@ services:
 volumes:
   pgdata:
   semaphore-mysql-data:
+  casdoor-mysql-data:
 
 networks:
   logto-network:
