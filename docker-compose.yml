@@ -169,6 +169,15 @@ services:
     networks:
       - logto-network
 
+  guacd:
+    image: guacamole/guacd:1.5.4
+    container_name: guacd
+    restart: unless-stopped
+    expose:
+      - "4822"
+    networks:
+      - logto-network
+
   casvisor:
     build:
       context: ./casvisor
@@ -180,6 +189,8 @@ services:
       casdoor-mysql:
         condition: service_healthy
       casdoor:
+        condition: service_started
+      guacd:
         condition: service_started
     entrypoint: /bin/sh /entrypoint.sh
     environment:
