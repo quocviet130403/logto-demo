@@ -170,7 +170,10 @@ services:
       - logto-network
 
   casvisor:
-    image: casbin/casvisor:latest
+    build:
+      context: ./casvisor
+      dockerfile: Dockerfile
+    image: casvisor-custom:latest
     container_name: casvisor
     restart: unless-stopped
     depends_on:
