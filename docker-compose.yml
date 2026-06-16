@@ -187,7 +187,7 @@ services:
       CASDOOR_PUBLIC_URL: https://${DOMAIN_CASDOOR}
       CASVISOR_CLIENT_ID: ${CASVISOR_CLIENT_ID:-faf8a964fb5afc29fed5}
     volumes:
-      - ./casvisor/conf:/conf/
+      - ./casvisor/conf:/home/casvisor/conf/
       - ./casvisor/entrypoint.sh:/entrypoint.sh:ro
     expose:
       - "19000"
