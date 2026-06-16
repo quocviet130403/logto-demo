@@ -6,7 +6,7 @@ RUN git clone --depth 1 https://github.com/casvisor/casvisor.git /casvisor
 WORKDIR /casvisor/web
 RUN yarn install --frozen-lockfile --network-timeout 1000000 && yarn run build
 
-FROM golang:1.20.12 AS backend
+FROM golang:1.22 AS backend
 WORKDIR /go/src/casvisor
 COPY --from=frontend /casvisor /go/src/casvisor
 # Inject custom Casdoor JWT certificate (replaces the demo cert)
